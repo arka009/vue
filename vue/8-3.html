@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="../vue-dev/dist/vue.min.js" type="text/javascript"></script>
+	<style type="text/css">
+		div{
+			padding: 15px;
+		}
+		.block{
+			border: 2px solid #999;
+			box-shadow: 4px 2px 4px #fe0;
+		}
+		.active{ color: red;  }
+		.big{
+			font-weight: bold;
+			font-size: 64px;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<h3>{{message}}</h3>
+		<p v-if="seen">快点看我</p>
+		<ol>
+			<li v-for="game in games">{{game.title}}</li>
+		</ol>
+		<hr>
+		<h1>
+			<p>这里是？--- {{mygame}}</p>
+			<br>
+			<input type="text" v-model="mygame" />
+		</h1>
+		<br>
+		<button v-on:click="btnClick('我的世界')">my world</button>
+		<button @click="btnClick('这是简写事件')">JX-Click</button>
+		<hr>
+		<div class="block">
+			game-item 组件
+		</div>
+		<ul>
+			<game-item v-for="item in games" v-bind:game="item"></game-item>
+		</ul>
+		<hr>
+		<div class="block">
+			过滤器
+		</div>
+		<p>{{mfilter}}</p>
+		<p>{{mfilter | toupper}}</p>
+		<h1>进度是 {{ mnum }} {{ mnum | topercentage | changeStyle}}</h1>
+		<div class="block">
+			计算过的价格
+		</div>
+		<h2>{{mprice}}, 含税价格 {{priceInTax}}, 折合人民币 {{priceChinaRMB}}</h2>
+		<hr>
+		<div class="block">
+			监听属性 $watch
+		</div>
+		<h2>{{jtprice}}, 含税价格 {{jtpriceInTax}}, 折合人民币 {{jtpriceChinaRMB}}</h2>
+		<button @click="priceClick(10000)">加价10000</button>
+		<hr>
+		<div class="block">
+			设定计算属性
+		</div>
+		<h2>{{sdprice}}, 含税价格 {{sdpriceInTax}}, 折合人民币 {{sdpriceChinaRMB}}</h2>
+		<button @click="sdPrice(10000)">含税改为10000</button>
+		<hr>
+		<div class="block">
+			Class 绑定
+		</div>
+		<div v-bind:class="{ active: isActive }">红色文本1</div>
+		<div :class="{ active: isActive }">红色文本2</div>
+		<button @click="bdStyleClick">改变class</button>
+		<hr>
+		<div class="block">
+			Class 对象绑定
+		</div>
+		<div :class="dxbdclass">红色文本</div>
+		<button @click="dxbdClass">改变Class</button>
+	</div>
+	<script type="text/javascript">
+		Vue.component('game-item',{
+			props: ['game'],
+			template: '<li>{{game.title}}</li>'
+		})
+		var myApp = new Vue({
+			el: '#app',
+			data: {
+				dxbdclass: {
+					active: true,
+					big: true
+				},
+				isActive: true,
+				sdprice: 29999,
+				jtprice: 0,
+				jtpriceInTax: 0,
+				jtpriceChinaRMB: 0,
+				mprice: 209090,
+				message: 'Hello my first web program',
+				seen: true,
+				mnum : 0.3,
+				mfilter: 'filter using',
+				games: [
+					{title: 'this is my book'},
+					{title: 'this is my phone'},
+					{title: 'this is my desk'},
+					{title: 'this is my bag'}
+				],
+				mygame: '你知道我想输入什么？',
+
+			},
+			methods: {
+					btnClick: function(pname){
+						this.mygame= pname; 
+					},
+					priceClick : function(nv){
+						this.jtprice+= nv;
+					},
+					sdPrice: function(nv){
+						this.sdpriceInTax = nv;
+					},
+					bdStyleClick: function(){
+						this.isActive = !this.isActive;
+					},
+					dxbdClass: function(){
+						this.dxbdclass.big = !this.dxbdclass.big;
+					}
+			},
+			filters: {
+				toupper: function(v){
+					return v.toUpperCase();
+				},
+				topercentage: function(v){
+					return v * 100 + '%';
+				},
+				changeStyle: function(v){
+					return '<span style="font-size:20px;color:green">'+v+'</span>';
+				}
+			},
+			computed:{
+				priceInTax: function(){
+					return this.mprice * 1.089;
+				},
+				priceChinaRMB: function(){
+					return Math.round(this.priceInTax / 16.75)
+				},
+				sdpriceInTax:{
+					set: function(v){
+						this.sdprice =	v / 1.08;
+					},
+					get: function(){
+						return this.sdprice * 1.08;
+					}
+				},
+				sdpriceChinaRMB: function(){
+					return Math.round(this.sdpriceInTax / 16.75);
+				}
+
+			},
+			watch: {
+				jtprice: function(nv, ov){
+					this.jtpriceInTax= Math.round(this.jtprice * 1.089);
+					this.jtpriceChinaRMB = Math.round(this.jtpriceInTax / 16.67);
+				}
+			}
+
+		})
+		myApp.jtprice = 1500;
+	</script>
+</body>
+</html>

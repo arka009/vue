@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="../vue-dev/dist/vue.min.js"></script>
+	<style>
+		div{
+			padding: 15px;
+		}
+		.block{
+			border: 2px solid #999;
+			box-shadow: 4px 2px 4px #fe0;
+		}
+		.active{
+			color: red;
+		}
+		.big{
+			font-size: 60px;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="block">
+			v-bind:class	class绑定
+		</div>
+		<div v-bind:class="{active:isActive}">红色文本</div>
+		<div :class="{active:isActive}">红色文本</div>
+		<button @click="btnClick">change class</button>
+		<div class="block">
+			v-bind:class	class绑定对象
+		</div>
+		<div :class="myClass">变色文本</div>
+		<button @click="changeClassObj">changeClassObj</button>
+		<div class="block">
+			条件渲染	v-if v-else-if v-else
+		</div>
+		<h1 v-if="result==0">成绩未公布</h1>
+		<h1 v-else-if="result < 60">{{result}} score - 考试不及格</h1>
+		<h1 v-else-if="result < 80">{{result}} score - 还需努力</h1>
+		<h1 v-else>{{result}} score -考的不错！</h1>
+		<button @click="btnClickScore">btnClickScore</button>
+		<div class="block">
+			v-show 元素显示	注意： v-show设置的标记在html dom中不会消失
+		</div>
+		<h1 v-show="vsresult">心得是写的是吗</h1>
+		<button @click="vsResult">vsresult</button>
+		<div class="block">
+			v-for 循环
+		</div>
+		<ul>
+			<li v-for="(game, index) in games">({{index+1}}) {{game.title}} / price {{game.price}}</li>
+		</ul>
+		<div class="block">
+			JS对象迭代	v-for
+		</div>
+		<div  v-for="(v, k) in mygame">
+			{{ k }} : {{ v }}
+		</div>
+		<div class="block">
+			事件处理
+		</div>
+		<input type="" id="textName" v-on:keyup="textKeyup($event)">
+		<button @click="debugClick($event)">debugClick</button>
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data:{
+				isActive: true,
+				result: 0,
+				myClass: {
+					active: true,
+					big: true
+				},
+				vsresult: true,
+				games: [
+					{ title: "勇士1", price: 2000 },
+					{ title: "勇士2", price: 3000 },
+					{ title: "勇士3", price: 1000 },
+				],
+				mygame: {
+					title: "Dnf",
+					price: 233,
+					pubdate: "2017年秋季",
+
+				}
+			},
+			
+			methods: {
+				btnClick: function(){
+					this.isActive = !this.isActive;
+				},
+				changeClassObj: function(){
+					this.myClass.big = !this.myClass.big
+					this.myClass.active = !this.myClass.active
+				},
+				btnClickScore: function(){
+					this.result = Math.round(Math.random()*100);
+				},
+				vsResult: function(){
+					this.vsresult = !this.vsresult;
+				},
+				textKeyup: function(event){
+					this.debugLog(event)
+				},
+				debugClick:function(event){
+					this.debugLog(event);
+				},
+				debugLog: function(event){
+					console.log(
+						event.srcElement.tagName,
+						event.srcElement.id,
+						event.srcElement.innerHTML,
+						event.key?event.key:""
+					)
+				}
+				
+			}
+
+		})
+	</script>
+</body>
+</html>

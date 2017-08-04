@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="../vue-dev/dist/vue.min.js"></script>
+	<style>
+		div{
+			padding: 15px;
+		}
+		.block{
+			border: 2px solid #999;
+			box-shadow: 4px 2px 4px #fe0;
+		}
+	</style>
+</head>
+<body>
+	<div id="app">
+		<div class="block">
+			表单控件  v-model input[type="text"]
+		</div>
+		<input type="text" v-model="message" placeholder="please">
+		<p>This input textcontent is {{message}}</p>
+		<div class="block">
+			表单复选框
+		</div>
+		<input type="checkbox"  value="game" v-model="checkedGames" id="game">
+		<label for="game">Game</label>
+		<input type="checkbox"  value="sport" v-model="checkedGames" id="sport">
+		<label for="sport">Sport</label>
+		<input type="checkbox"  value="sleep" v-model="checkedGames" id="sleep">
+		<label for="sleep">Sleep</label>
+		<p>You chose thing is: {{ checkedGames }}</p>
+		<div class="block">
+			表单单选框
+		</div>
+		<h3>Please chose your sexy</h3>
+		<input type="radio"  value="male"  id="male" v-model="pickedSex">
+		<label for="male">Male</label>
+		<input type="radio"  value="famale"  id="famale" v-model="pickedSex">
+		<label for="famale">feMale</label>
+		<h3>Please chose your favourite</h3>
+		<input type="radio"  value="games"  id="games" v-model="pickedHobby">
+		<label for="games">Games</label>
+		<input type="radio"  value="movie"  id="movie" v-model="pickedHobby">
+		<label for="movie">Movie</label>
+		<p>You chose sexy is: {{ pickedSex }}</p>
+		<p>You chose hobby is: {{ pickedHobby }}</p>
+		<div class="block">
+			表单下拉框
+		</div>
+		<h3>你最喜欢的明星是：</h3>
+		<select v-model="likedStar" style="width:210px;">
+			<option>詹姆斯</option>
+			<option>可比</option>
+			<option>要命</option>
+			<option>hong10</option>
+		</select>
+		<h3>你的国家的城市：</h3>
+		<select v-model="likedStars" multiple style="width:210px;height:210px;">
+			<option>河北</option>
+			<option>河南</option>
+			<option>上海</option>
+			<option>江苏</option>
+			<option>北京</option>
+			<option>天津</option>
+			<option>南京</option>
+			<option>石家庄</option>
+			<option>保定</option>
+		</select>
+		<p>你选择的结果是：{{likedStar}}  {{likedStars}} </p>
+		<div class="block">
+			表单修饰符	.lazy .number .trim
+		</div>
+		<div>
+			user: <input type="text" v-model.lazy="username" @change="changeUser">
+			<span v-if="checkUser">可注册</span>	
+		</div>
+		<div>
+			age: <input v-model.number="age" type="number">	
+		</div>
+		<div>
+			意见：<textarea v-model.trim="content" cols="55" rows="8"></textarea>
+		</div>
+		<h5>
+			info:
+		</h5>
+		<p>
+			{{username}} {{age}} {{content}}
+		</p>
+		
+	</div>
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				message: '我爱玩游戏',
+				checkedGames: [],
+				pickedSex: "",
+				pickedHobby: "",
+				likedStar: null,
+				likedStars: [],
+				username: "",
+				age: "",
+				content: "",
+				checkUser: false
+
+			},
+			methods: {
+				changeUser: function(){
+					if(this.username.length>0){
+						this.checkUser = true;
+					} else{
+						this.checkUser = false;
+					}
+				}
+			}
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script type="text/javascript" src="../vue-dev/dist/vue.min.js"></script>
+    <style>
+    div {
+        padding: 15px;
+    }
+
+    .block {
+        border: 2px solid #999;
+        box-shadow: 4px 2px 4px #fe0;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="myapp">
+    	<div class="block">
+    		组件：基础
+    	</div>
+		<today-weather></today-weather>
+		<div class="block">
+			组件： 局部组件
+		</div>
+		<app-mycon></app-mycon>
+		<hr>
+		<app-mycon></app-mycon>
+		<hr>
+		<div class="block">
+			组件： 表行组件
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<td>ID</td>
+					<td>name</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr is="my-row1"></tr>
+				<tr is="my-row2"></tr>
+				<tr is="my-row3"></tr>
+				<!-- <my-row1></my-row1>
+				<my-row2></my-row2>
+				<my-row3></my-row3> -->
+			</tbody>
+		</table>
+		<div class="block">
+			组件： 数据
+		</div>
+		<div><firstcon/></div>
+    </div>
+    <script>
+    Vue.component('firstcon',{
+    	template: '<strong>{{mybegame}}</strong>',
+    	data: function(){
+    		return {mybegame: 'DNF/PORKET/LOL/EVE'}
+    	},
+    })
+    Vue.component('today-weather', {
+    	template: '<div>今天有大风转小雨转晴天</div>'
+    })
+    var myfirstcon= Vue.component('ap-mycon', {
+    	template: '<h1>这是局部组件</h1>'
+    })
+    Vue.component('my-row1',{
+    	template: '<tr><td>(1)</td><td>塞尔达：荒野</td></tr>'
+    })
+     Vue.component('my-row2',{
+    	template: '<tr><td>(2)</td><td>塞尔达：荒野</td></tr>'
+    })
+      Vue.component('my-row3',{
+    	template: '<tr><td>(3)</td><td>塞尔达：荒野</td></tr>'
+    })
+    var myapp= new Vue({
+    	el: '#myapp',
+    	
+    	components: {
+    		'app-mycon': myfirstcon
+    	}
+    })
+    </script>
+</body>
+
+</html>
